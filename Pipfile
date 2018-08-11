@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "~=2.19"
+pendulum = "~=2.0"
+future = "*"
+
+[dev-packages]
+codecov = "~=2.0"
+pytest = "~=3.6"
+pytest-cov = "~=2.5"
+responses = "~=0.9"
+flit = "~=1.0"
+"flake8" = "*"
+"flake8-comprehensions" = "*"
+"flake8-commas" = "*"
+"pytest-flake8" = "*"
+"flake8-quotes" = "*"
+isort = "*"
+"flake8-isort" = "*"
+"flake8-per-file-ignores" = "*"
+mock = "*"
+"pathlib2" = "*"
+
+[requires]
+python_version = "3.7"

@@ -1,0 +1,12 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "pygetty"
+dist-name = "pygetty"
+author = "Josh Klar"
+author-email = "josh@lumen5.com"
+home-page = "https://github.com/Lumen5/pygetty"
+classifiers = ["License :: OSI Approved :: ISC License (ISCL)"]
+requires = ["requests~=2.19", "future", "pendulum~=2.0"]

@@ -29,7 +29,7 @@ class APIPageSizeLimitExceeded(Warning):
 
 def _fetch_page(
     page, page_size, query_params,
-    asset_type, search_type,
+    asset_type, search_type=None,
     auth_token_manager=None,
 ):
     params = {
@@ -39,8 +39,13 @@ def _fetch_page(
 
     params.update(query_params)
 
+    if search_type:
+        url = gen_v3_url('search', asset_type, search_type)
+    else:
+        url = gen_v3_url('search', asset_type)
+
     res = requests.get(
-        gen_v3_url('search', asset_type, search_type),
+        url,
         headers=auth_token_manager.request_headers(),
         params=params,
     )
@@ -120,6 +125,11 @@ def search(
         page_num += 1
 
 
+def all_videos(*args, **kwargs):
+    kwargs['asset_type'] = 'videos'
+    return search(*args, **kwargs)
+
+
 def creative_videos(*args, **kwargs):
     kwargs['search_type'] = 'creative'
     kwargs['asset_type'] = 'videos'
@@ -129,6 +139,11 @@ def creative_videos(*args, **kwargs):
 def editorial_videos(*args, **kwargs):
     kwargs['search_type'] = 'editorial'
     kwargs['asset_type'] = 'videos'
+    return search(*args, **kwargs)
+
+
+def all_images(*args, **kwargs):
+    kwargs['asset_type'] = 'images'
     return search(*args, **kwargs)
 
 

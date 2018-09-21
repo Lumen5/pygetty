@@ -52,4 +52,4 @@ def report_usage_now(
             res.json()['invalid_assets'],
         )
 
-    return res.json()['total_asset_usages_processed']
+    return res.json()

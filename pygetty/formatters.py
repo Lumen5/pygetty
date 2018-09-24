@@ -7,6 +7,17 @@ import pendulum
 MASTERY_DIMENSIONS_REGEX = re.compile(r'(?P<width>[0-9]+)x(?P<height>[0-9]+)')
 
 
+def format_image(image):
+    if 'date_created' in image:
+        image['date_created'] = pendulum.parse(image['date_created'])
+
+    if 'keywords' in image:
+        image['raw_keywords'] = image['keywords']
+        image['keywords'] = [kw['text'] for kw in image['keywords']]
+
+    return image
+
+
 def format_video(video):
     if 'date_created' in video:
         video['date_created'] = pendulum.parse(video['date_created'])

@@ -8,7 +8,7 @@ from textwrap import dedent
 import requests
 
 from .auth import flex_auth
-from .formatters import format_video
+from .formatters import format_image, format_video
 from .util import gen_v3_url
 
 DEFAULT_PAGE_SIZE = 30
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 asset_formatters = {
     'videos': format_video,
-    'images': lambda x: x,
+    'images': format_image,
 }
 
 

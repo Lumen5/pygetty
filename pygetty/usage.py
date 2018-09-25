@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+import uuid
 from builtins import str
 
 import pendulum
@@ -33,7 +34,7 @@ def report_usage_now(
     )
 
     res = requests.put(
-        gen_v3_url('usage-batches', str(id)),
+        gen_v3_url('usage-batches', str(uuid.uuid4())),
         headers=auth_token_manager.request_headers(),
         json={
             'asset_usages': [{

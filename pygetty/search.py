@@ -95,22 +95,19 @@ def search(
 
     params['fields'] = ','.join(new_fields)
 
-    while returned < max_results:
-        try:
-            page = _fetch_page(
-                page=page_num,
-                page_size=page_size,
-                query_params=params,
-                asset_type=asset_type,
-                search_type=search_type,
-                auth_token_manager=auth_token_manager,
-            )
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code == 400 and 'page must be equal to' in e.response.text:
-                logger.warning('Got page must be equal to error')
-                return
+    total_results = None
 
-            raise
+    while returned < max_results if total_results is None else min(max_results, total_results):
+        page = _fetch_page(
+            page=page_num,
+            page_size=page_size,
+            query_params=params,
+            asset_type=asset_type,
+            search_type=search_type,
+            auth_token_manager=auth_token_manager,
+        )
+
+        total_results = page.get('result_count')
 
         for asset in page[asset_type]:
             yield asset_formatters[asset_type](asset)
@@ -118,9 +115,6 @@ def search(
 
             if returned >= max_results:
                 return
-
-        if len(page[asset_type]) < page_size:
-            return
 
         page_num += 1
 

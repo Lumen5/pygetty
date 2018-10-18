@@ -27,6 +27,26 @@ def report_usage_now(
     Reports asset usage at the current moment for a single asset.
     Returns 1 on success, or raises ReportingFailed.
     """
+    return report_usage(
+        id,
+        pendulum.now().isoformat(),
+        api_key=api_key,
+        client_secret=client_secret,
+        auth_token_manager=auth_token_manager,
+    )
+
+
+def report_usage(
+    id,
+    usage_date,
+    api_key=None,
+    client_secret=None,
+    auth_token_manager=None,
+):
+    """
+    Reports asset usage at the specified time for a single asset.
+    Returns 1 on success, or raises ReportingFailed.
+    """
     auth_token_manager = flex_auth(
         api_key=api_key,
         client_secret=client_secret,
@@ -40,7 +60,7 @@ def report_usage_now(
             'asset_usages': [{
                 'asset_id': id,
                 'quantity': 1,
-                'usage_date': pendulum.now().isoformat(),
+                'usage_date': usage_date,
             }],
         },
     )

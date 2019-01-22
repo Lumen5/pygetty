@@ -10,7 +10,7 @@ def gen_url(*args):
     join_args = [base_url]
     join_args.extend(args)
 
-    return '/'.join(join_args)
+    return '/'.join(map(str, join_args))
 
 
 def gen_v3_url(*args):
@@ -20,4 +20,4 @@ def gen_v3_url(*args):
     join_args = [base_url_v3]
     join_args.extend(args)
 
-    return '/'.join(join_args)
+    return '/'.join(map(str, join_args))

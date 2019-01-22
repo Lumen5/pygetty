@@ -82,4 +82,4 @@ def confirm(
 
     res.raise_for_status()
 
-    return res.json()
+    return True

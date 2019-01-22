@@ -23,7 +23,7 @@ jobs:
             - run: apk update && apk add alpine-sdk
             - run: cat Pipfile | grep -v flit > Pipfile2
             - run: mv Pipfile2 Pipfile
-            - run: pip install pipenv
+            - run: pip install pipenv==2018.10.13
             - run: pipenv --python $(which python) install --dev
             - run: make test
     test_py36:
@@ -32,7 +32,7 @@ jobs:
         steps:
             - checkout
             - run: apk update && apk add alpine-sdk
-            - run: pip install pipenv
+            - run: pip install pipenv==2018.10.13
             - run: pipenv --python $(which python) install --dev
             - run: make test
     test_py37:
@@ -41,7 +41,7 @@ jobs:
         steps:
             - checkout
             - run: apk update && apk add alpine-sdk
-            - run: pip install pipenv
+            - run: pip install pipenv==2018.10.13
             - run: pipenv --python $(which python) install --dev
             - run: make test
     test_pypy3:
@@ -50,7 +50,7 @@ jobs:
         steps:
             - checkout
             - run: apt-get update && apt-get install -y build-essential
-            - run: pip install pipenv
+            - run: pip install pipenv==2018.10.13
             - run: pipenv --python $(which pypy3) install --dev
             - run: make test
     publish:
@@ -60,7 +60,7 @@ jobs:
             - run: apk update
             - run: apk add git openssh
             - checkout
-            - run: pip install pipenv
+            - run: pip install pipenv==2018.10.13
             - run: pipenv --python $(which python) install --dev
             - run: pipenv run flit build
             - run: pipenv run flit publish

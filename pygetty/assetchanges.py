@@ -6,6 +6,20 @@ from .auth import flex_auth
 from .util import gen_v3_url
 
 
+"""
+1. Use the /v3/asset-changes/channels endpoint to retrieve the IDs
+   for your channels (you only need to do this once)
+
+2. Use the /v3/asset-changes/change-sets endpoint along with one of the channel IDs
+   to retrieve a list of image IDs in that channel. The max batch size is 500 IDs.
+
+3. Use the /v3/asset-changes/change-sets/{change-set-id} to confirm that you’ve
+   received the list.
+
+4. Repeat steps 2 and 3 as many time as necessary until the channel returns zero IDs.
+"""
+
+
 def channels(
     api_key=None,
     client_secret=None,

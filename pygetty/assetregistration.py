@@ -22,10 +22,10 @@ def register_assets(
         gen_v3_url('asset-registrations'),
         headers=auth_token_manager.request_headers(),
         json={
-            'asset_ids': asset_ids,
+            'asset_ids': map(str, asset_ids),
         },
     )
 
     res.raise_for_status()
 
-    return True
+    return res.json()

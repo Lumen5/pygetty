@@ -12,6 +12,8 @@ def register_assets(
     client_secret=None,
     auth_token_manager=None,
 ):
+    """Register a list of customer assets.
+    """
     auth_token_manager = flex_auth(
         api_key=api_key,
         client_secret=client_secret,

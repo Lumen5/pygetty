@@ -11,6 +11,8 @@ def channels(
     client_secret=None,
     auth_token_manager=None,
 ):
+    """Get a list of asset change notification channels.
+    """
     auth_token_manager = flex_auth(
         api_key=api_key,
         client_secret=client_secret,
@@ -24,4 +26,60 @@ def channels(
 
     res.raise_for_status()
 
-    return True
+    return res.json()
+
+
+def changesets(
+    channel_id,
+    batch_size=None,
+    api_key=None,
+    client_secret=None,
+    auth_token_manager=None,
+):
+    """Get asset change notifications
+    """
+    auth_token_manager = flex_auth(
+        api_key=api_key,
+        client_secret=client_secret,
+        auth_token_manager=auth_token_manager,
+    )
+
+    params = {
+        'channel_id': channel_id,
+    }
+    if batch_size:
+        params['batch_size'] = batch_size
+
+    res = requests.put(
+        gen_v3_url('asset-changes', 'change-sets'),
+        headers=auth_token_manager.request_headers(),
+        params=params,
+    )
+
+    res.raise_for_status()
+
+    return res.json()
+
+
+def confirm(
+    changeset_id,
+    api_key=None,
+    client_secret=None,
+    auth_token_manager=None,
+):
+    """Confirm asset change notifications.
+    """
+    auth_token_manager = flex_auth(
+        api_key=api_key,
+        client_secret=client_secret,
+        auth_token_manager=auth_token_manager,
+    )
+
+    res = requests.delete(
+        gen_v3_url('asset-changes', 'change-sets', changeset_id),
+        headers=auth_token_manager.request_headers(),
+    )
+
+    res.raise_for_status()
+
+    return res.json()

@@ -7,7 +7,7 @@ setup(
     version=pygettyversion,
     packages=find_packages(exclude=('tests',)),
     install_requires=[
-        'requests~=2.19',
+        'requests>=2.20.0',
         'pendulum~=2.0.0',
     ],
 )

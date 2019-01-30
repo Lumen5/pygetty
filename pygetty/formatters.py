@@ -1,5 +1,6 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
+import logging
 import re
 
 import pendulum
@@ -12,6 +13,8 @@ except ImportError:
 
 
 MASTERY_DIMENSIONS_REGEX = re.compile(r'(?P<width>[0-9]+)x(?P<height>[0-9]+)')
+
+logger = logging.getLogger(__name__)
 
 
 def format_image(image):
@@ -67,12 +70,10 @@ def format_video(video):
         video['keywords'] = [kw['text'] for kw in video['keywords']]
 
     if video.get('mastered_to') is not None:
-        video['parsed_dimensions'] = {
-            k: int(v)
-            for k, v in re.search(
-                pattern=MASTERY_DIMENSIONS_REGEX,
-                string=video['mastered_to'],
-            ).groupdict().viewitems()
-        }
+        matches = re.search(pattern=MASTERY_DIMENSIONS_REGEX, string=video['mastered_to'])
+        if matches is not None:
+            video['parsed_dimensions'] = {k: int(v) for k, v in matches.groupdict().viewitems()}
+        else:
+            logger.warning('Could not parse dimensions from video {ID}'.format(ID=video.get('id')))
 
     return video

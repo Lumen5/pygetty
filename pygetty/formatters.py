@@ -34,7 +34,14 @@ def format_video(video):
 
     if video.get('clip_length') is not None:
         fields = ('days', 'hours', 'minutes', 'seconds', 'frames')
-        cl = [int(x) for x in video['clip_length'].split(':')]
+        cl = []
+        for x in re.split('[:;]+', video['clip_length']):
+            try:
+                cl.append(int(x))
+            except ValueError, TypeError:
+                # if there is an exception can either pad with 0
+                # or stop iterating, resulting in lower resolution
+                break
 
         # Getty durations are provided as strings that can
         # omit zeroed leading fields. This forces those

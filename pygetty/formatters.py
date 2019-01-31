@@ -38,7 +38,7 @@ def format_video(video):
         for x in re.split('[:;]+', video['clip_length']):
             try:
                 cl.append(int(x))
-            except ValueError, TypeError:
+            except (ValueError, TypeError):
                 # if there is an exception can either pad with 0
                 # or stop iterating, resulting in lower resolution
                 break

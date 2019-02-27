@@ -5,6 +5,7 @@ from builtins import str
 import requests
 
 from .auth import flex_auth
+from .consts import default_timeout
 from .util import gen_v3_url
 
 
@@ -12,6 +13,7 @@ def image_download_url(
     id,
     file_type='jpg',
     auth_token_manager=None, api_key=None, client_secret=None,
+    timeout=None,
 ):
     """
     Request the URL from which to download a full-resolution Getty asset.
@@ -22,6 +24,9 @@ def image_download_url(
         auth_token_manager=auth_token_manager,
     )
 
+    if timeout is None:
+        timeout = default_timeout
+
     res = requests.post(
         gen_v3_url('downloads', 'images', str(id)),
         headers=auth_token_manager.request_headers(),
@@ -29,6 +34,7 @@ def image_download_url(
             'auto_download': False,
             'file_type': file_type,
         },
+        timeout=timeout,
     )
 
     res.raise_for_status()
@@ -40,6 +46,7 @@ def video_download_url(
     id,
     size='hd1',
     auth_token_manager=None, api_key=None, client_secret=None,
+    timeout=None,
 ):
     """
     Request the URL from which to download a full-resolution Getty asset.
@@ -50,6 +57,9 @@ def video_download_url(
         auth_token_manager=auth_token_manager,
     )
 
+    if timeout is None:
+        timeout = default_timeout
+
     res = requests.post(
         gen_v3_url('downloads', 'videos', str(id)),
         headers=auth_token_manager.request_headers(),
@@ -57,6 +67,7 @@ def video_download_url(
             'auto_download': False,
             'size': size,
         },
+        timeout=timeout,
     )
 
     res.raise_for_status()

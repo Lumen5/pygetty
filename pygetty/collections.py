@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import requests
 
 from .auth import flex_auth
+from .consts import default_timeout
 from .util import gen_v3_url
 
 
@@ -10,6 +11,7 @@ def collections(
     api_key=None,
     client_secret=None,
     auth_token_manager=None,
+    timeout=None,
 ):
     """Get collections applicable for this customer.
     """
@@ -19,9 +21,13 @@ def collections(
         auth_token_manager=auth_token_manager,
     )
 
+    if timeout is None:
+        timeout = default_timeout
+
     res = requests.get(
         gen_v3_url('collections'),
         headers=auth_token_manager.request_headers(),
+        timeout=timeout,
     )
 
     res.raise_for_status()

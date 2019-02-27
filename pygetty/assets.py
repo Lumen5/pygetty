@@ -5,6 +5,7 @@ from copy import deepcopy
 import requests
 
 from .auth import flex_auth
+from .consts import default_timeout
 from .search import asset_formatters
 from .util import gen_v3_url
 
@@ -18,6 +19,7 @@ def individual_asset(
     auth_token_manager=None,
     api_key=None,
     client_secret=None,
+    timeout=None,
 ):
     assert asset_type in asset_formatters
 
@@ -26,6 +28,10 @@ def individual_asset(
         api_key=api_key,
         client_secret=client_secret,
     )
+
+    if timeout is None:
+        timeout = default_timeout
+
     params = deepcopy(query_params)
     new_fields = fields.copy()
 
@@ -41,6 +47,7 @@ def individual_asset(
         url,
         headers=auth_token_manager.request_headers(),
         params=params,
+        timeout=timeout,
     )
 
     res.raise_for_status()
@@ -57,6 +64,7 @@ def multiple_assets(
     auth_token_manager=None,
     api_key=None,
     client_secret=None,
+    timeout=None,
 ):
     assert asset_type in asset_formatters
 
@@ -65,6 +73,10 @@ def multiple_assets(
         api_key=api_key,
         client_secret=client_secret,
     )
+
+    if timeout is None:
+        timeout = default_timeout
+
     params = deepcopy(query_params)
     params['ids'] = ','.join(map(str, ids))
     new_fields = fields.copy()
@@ -81,6 +93,7 @@ def multiple_assets(
         url,
         headers=auth_token_manager.request_headers(),
         params=params,
+        timeout=timeout,
     )
 
     res.raise_for_status()

@@ -8,6 +8,7 @@ from textwrap import dedent
 import requests
 
 from .auth import flex_auth
+from .consts import default_timeout
 from .formatters import format_image, format_video
 from .util import gen_v3_url
 
@@ -31,6 +32,7 @@ def _fetch_page(
     page, page_size, query_params,
     asset_type, search_type=None,
     auth_token_manager=None,
+    timeout=None,
 ):
     params = {
         'page': page,
@@ -44,10 +46,14 @@ def _fetch_page(
     else:
         url = gen_v3_url('search', asset_type)
 
+    if timeout is None:
+        timeout = default_timeout
+
     res = requests.get(
         url,
         headers=auth_token_manager.request_headers(),
         params=params,
+        timeout=timeout,
     )
 
     res.raise_for_status()
@@ -67,6 +73,7 @@ def search(
     auth_token_manager=None,
     api_key=None,
     client_secret=None,
+    timeout=None,
 ):
     if page_size > MAX_PAGE_SIZE:
         warnings.warn(dedent("""
@@ -82,6 +89,9 @@ def search(
         api_key=api_key,
         client_secret=client_secret,
     )
+
+    if timeout is None:
+        timeout = default_timeout
 
     returned = 0
     page_num = start_page
@@ -105,6 +115,7 @@ def search(
             asset_type=asset_type,
             search_type=search_type,
             auth_token_manager=auth_token_manager,
+            timeout=timeout,
         )
 
         total_results = page.get('result_count')

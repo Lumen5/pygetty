@@ -7,6 +7,7 @@ import pendulum
 import requests
 
 from .auth import flex_auth
+from .consts import default_timeout
 from .util import gen_v3_url
 
 
@@ -22,6 +23,7 @@ def report_usage_now(
     api_key=None,
     client_secret=None,
     auth_token_manager=None,
+    timeout=None,
 ):
     """
     Reports asset usage at the current moment for a single asset.
@@ -33,6 +35,7 @@ def report_usage_now(
         api_key=api_key,
         client_secret=client_secret,
         auth_token_manager=auth_token_manager,
+        timeout=timeout,
     )
 
 
@@ -42,6 +45,7 @@ def report_usage(
     api_key=None,
     client_secret=None,
     auth_token_manager=None,
+    timeout=None,
 ):
     """
     Reports asset usage at the specified time for a single asset.
@@ -52,6 +56,8 @@ def report_usage(
         client_secret=client_secret,
         auth_token_manager=auth_token_manager,
     )
+    if timeout is None:
+        timeout = default_timeout
 
     res = requests.put(
         gen_v3_url('usage-batches', str(uuid.uuid4())),
@@ -63,6 +69,7 @@ def report_usage(
                 'usage_date': usage_date,
             }],
         },
+        timeout=timeout,
     )
 
     res.raise_for_status()

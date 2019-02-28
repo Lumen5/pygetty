@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import requests
 
 from .auth import flex_auth
+from .consts import default_timeout
 from .util import gen_v3_url
 
 
@@ -24,6 +25,7 @@ def channels(
     api_key=None,
     client_secret=None,
     auth_token_manager=None,
+    timeout=None,
 ):
     """Get a list of asset change notification channels.
     """
@@ -33,9 +35,13 @@ def channels(
         auth_token_manager=auth_token_manager,
     )
 
+    if timeout is None:
+        timeout = default_timeout
+
     res = requests.get(
         gen_v3_url('asset-changes', 'channels'),
         headers=auth_token_manager.request_headers(),
+        timeout=timeout,
     )
 
     res.raise_for_status()
@@ -49,6 +55,7 @@ def changesets(
     api_key=None,
     client_secret=None,
     auth_token_manager=None,
+    timeout=None,
 ):
     """Get asset change notifications
     """
@@ -57,6 +64,9 @@ def changesets(
         client_secret=client_secret,
         auth_token_manager=auth_token_manager,
     )
+
+    if timeout is None:
+        timeout = default_timeout
 
     params = {
         'channel_id': channel_id,
@@ -68,6 +78,7 @@ def changesets(
         gen_v3_url('asset-changes', 'change-sets'),
         headers=auth_token_manager.request_headers(),
         params=params,
+        timeout=timeout,
     )
 
     res.raise_for_status()
@@ -80,6 +91,7 @@ def confirm(
     api_key=None,
     client_secret=None,
     auth_token_manager=None,
+    timeout=None,
 ):
     """Confirm asset change notifications.
     """
@@ -89,9 +101,13 @@ def confirm(
         auth_token_manager=auth_token_manager,
     )
 
+    if timeout is None:
+        timeout = default_timeout
+
     res = requests.delete(
         gen_v3_url('asset-changes', 'change-sets', changeset_id),
         headers=auth_token_manager.request_headers(),
+        timeout=timeout,
     )
 
     res.raise_for_status()

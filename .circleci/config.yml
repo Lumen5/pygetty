@@ -25,7 +25,7 @@ jobs:
             - run: mv Pipfile2 Pipfile
             - run: pip install pipenv==2018.10.13
             - run: pipenv --python $(which python) install --dev
-            - run: make test
+            - run: pipenv run pytest --cov pygetty --cov-report term-missing --cov-report xml
     test_py36:
         docker:
             - image: python:3.6.6-alpine3.8

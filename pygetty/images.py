@@ -11,6 +11,7 @@ def image(
     auth_token_manager=None,
     api_key=None,
     client_secret=None,
+    timeout=None,
 ):
     return individual_asset(
         id,
@@ -21,6 +22,7 @@ def image(
         auth_token_manager=auth_token_manager,
         api_key=api_key,
         client_secret=client_secret,
+        timeout=timeout,
     )
 
 
@@ -32,6 +34,7 @@ def images(
     auth_token_manager=None,
     api_key=None,
     client_secret=None,
+    timeout=None,
 ):
     return multiple_assets(
         ids,
@@ -42,4 +45,5 @@ def images(
         auth_token_manager=auth_token_manager,
         api_key=api_key,
         client_secret=client_secret,
+        timeout=timeout,
     )

@@ -1,9 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 
-import requests
-
 from .auth import flex_auth
 from .consts import default_timeout
+from .network import get
 from .util import gen_v3_url
 
 
@@ -24,7 +23,7 @@ def collections(
     if timeout is None:
         timeout = default_timeout
 
-    res = requests.get(
+    res = get(
         gen_v3_url('collections'),
         headers=auth_token_manager.request_headers(),
         timeout=timeout,

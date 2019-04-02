@@ -5,11 +5,10 @@ import warnings
 from copy import deepcopy
 from textwrap import dedent
 
-import requests
-
 from .auth import flex_auth
 from .consts import default_timeout
 from .formatters import format_image, format_video
+from .network import get
 from .util import gen_v3_url
 
 DEFAULT_PAGE_SIZE = 30
@@ -49,7 +48,7 @@ def _fetch_page(
     if timeout is None:
         timeout = default_timeout
 
-    res = requests.get(
+    res = get(
         url,
         headers=auth_token_manager.request_headers(),
         params=params,

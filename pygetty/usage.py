@@ -4,10 +4,10 @@ import uuid
 from builtins import str
 
 import pendulum
-import requests
 
 from .auth import flex_auth
 from .consts import default_timeout
+from .network import put
 from .util import gen_v3_url
 
 
@@ -59,7 +59,7 @@ def report_usage(
     if timeout is None:
         timeout = default_timeout
 
-    res = requests.put(
+    res = put(
         gen_v3_url('usage-batches', str(uuid.uuid4())),
         headers=auth_token_manager.request_headers(),
         json={

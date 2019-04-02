@@ -3,9 +3,9 @@ from __future__ import absolute_import, unicode_literals
 from builtins import str
 
 import pendulum
-import requests
 
 from .consts import default_timeout
+from .network import post
 from .util import gen_url
 
 TOKEN_VALIDITY_PADDING = 5  # trim these many seconds off token validity
@@ -55,7 +55,7 @@ class AuthTokenManager(object):
             self.timeout = timeout
 
     def _fetch_token(self):
-        res = requests.post(gen_url('oauth2', 'token'), data={
+        res = post(gen_url('oauth2', 'token'), data={
             'grant_type': GRANT_TYPE_CLIENT_CREDENTIALS,
             'client_id': self.api_key,
             'client_secret': self.client_secret,

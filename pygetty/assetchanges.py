@@ -1,9 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 
-import requests
-
 from .auth import flex_auth
 from .consts import default_timeout
+from .network import get, put, delete
 from .util import gen_v3_url
 
 
@@ -38,7 +37,7 @@ def channels(
     if timeout is None:
         timeout = default_timeout
 
-    res = requests.get(
+    res = get(
         gen_v3_url('asset-changes', 'channels'),
         headers=auth_token_manager.request_headers(),
         timeout=timeout,
@@ -74,7 +73,7 @@ def changesets(
     if batch_size:
         params['batch_size'] = batch_size
 
-    res = requests.put(
+    res = put(
         gen_v3_url('asset-changes', 'change-sets'),
         headers=auth_token_manager.request_headers(),
         params=params,
@@ -104,7 +103,7 @@ def confirm(
     if timeout is None:
         timeout = default_timeout
 
-    res = requests.delete(
+    res = delete(
         gen_v3_url('asset-changes', 'change-sets', changeset_id),
         headers=auth_token_manager.request_headers(),
         timeout=timeout,

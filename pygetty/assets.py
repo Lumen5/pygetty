@@ -2,10 +2,9 @@ from __future__ import absolute_import, unicode_literals
 
 from copy import deepcopy
 
-import requests
-
 from .auth import flex_auth
 from .consts import default_timeout
+from .network import get
 from .search import asset_formatters
 from .util import gen_v3_url
 
@@ -43,7 +42,7 @@ def individual_asset(
 
     url = gen_v3_url(asset_type, str(id))
 
-    res = requests.get(
+    res = get(
         url,
         headers=auth_token_manager.request_headers(),
         params=params,
@@ -89,7 +88,7 @@ def multiple_assets(
 
     url = gen_v3_url(asset_type)
 
-    res = requests.get(
+    res = get(
         url,
         headers=auth_token_manager.request_headers(),
         params=params,

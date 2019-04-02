@@ -2,10 +2,9 @@ from __future__ import absolute_import, unicode_literals
 
 from builtins import str
 
-import requests
-
 from .auth import flex_auth
 from .consts import default_timeout
+from .network import post
 from .util import gen_v3_url
 
 
@@ -27,7 +26,7 @@ def image_download_url(
     if timeout is None:
         timeout = default_timeout
 
-    res = requests.post(
+    res = post(
         gen_v3_url('downloads', 'images', str(id)),
         headers=auth_token_manager.request_headers(),
         params={
@@ -60,7 +59,7 @@ def video_download_url(
     if timeout is None:
         timeout = default_timeout
 
-    res = requests.post(
+    res = post(
         gen_v3_url('downloads', 'videos', str(id)),
         headers=auth_token_manager.request_headers(),
         params={

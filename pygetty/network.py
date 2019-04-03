@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, division, unicode_literals
 
 import logging
 
@@ -60,7 +60,12 @@ def log_decorator(f):
                     'response_text': response_text,
                 },
             }
-            logger.debug(entry)
+            # if the HTTP status_code is not in the 2XX range
+            # then set the log level to WARNING, otherwise DEBUG
+            if response_status_code // 100 != 2:
+                logger.warning(entry)
+            else:
+                logger.debug(entry)
         except Exception as e:
             logger.exception(e)
         # return the resonse object

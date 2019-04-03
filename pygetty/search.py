@@ -126,6 +126,8 @@ def search(
             if returned >= max_results:
                 return
 
+        if page_num * page_size >= total_results:
+            return
         page_num += 1
 
 

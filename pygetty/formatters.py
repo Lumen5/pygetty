@@ -79,7 +79,7 @@ def format_video(video):
     if video.get('mastered_to') is not None:
         matches = re.search(pattern=MASTERY_DIMENSIONS_REGEX, string=video['mastered_to'])
         if matches is not None:
-            video['parsed_dimensions'] = {k: int(v) for k, v in matches.groupdict().viewitems()}
+            video['parsed_dimensions'] = {k: int(v) for k, v in matches.groupdict().items()}
         else:
             logger.warning('Could not parse dimensions from video {ID}'.format(ID=video.get('id')))
 

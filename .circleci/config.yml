@@ -4,6 +4,7 @@ workflows:
     main:
         jobs:
             - test_py27
+            - test_py35
             - test_py36
             - test_py37
             - test_pypy3
@@ -26,6 +27,14 @@ jobs:
             - run: pip install pipenv==2018.10.13
             - run: pipenv --python $(which python) install --dev
             - run: pipenv run pytest --cov pygetty --cov-report term-missing --cov-report xml
+    test_py35:
+        docker:
+            - image: python:3.5
+        steps:
+            - checkout
+            - run: pip install pipenv==2018.10.13
+            - run: pipenv --python $(which python) install --dev
+            - run: make test
     test_py36:
         docker:
             - image: python:3.6.6-alpine3.8
